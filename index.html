@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="./circle.png">
+    <link rel="apple-touch-icon" href="./circle.png">
+        <!--notice that defer only works for external scipts but no for inline scripts!-->
+    <script defer src="./script.js"></script>
+    <title>Bovo</title>
+    <style>
+
+        /* Important reset, simplifies styling a lot*/
+        * {
+            margin: 0; 
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            text-align: center;
+            padding: 1rem;
+        }
+        h1{
+           
+            font-size: 1.5rem;
+            font-size: clamp(1.5rem, 1.0510204081632653rem + 2.0408163265306123vw, 3.5rem);
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            font-size: large;
+            font-weight: bold;
+            padding: 1rem 2rem;
+            background-color: white;
+            border-radius: 0.7rem;
+            
+        }
+
+        button:hover {
+            background-color: black;
+            color: whitesmoke;
+        }
+
+
+        #gamediv{
+            margin: 0 auto;
+            display: grid;
+            width: 95%;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: 1000px) {
+            #gamediv{
+                width: 70%;
+            }
+            button {
+                padding: 2rem 4rem;
+            }
+        }
+
+        @media (min-width: 1500px) {
+            #gamediv{
+                width: 40%;
+            }
+        }
+
+        .cell{
+            width: 100%;
+            aspect-ratio: 1 / 1;  /* height will match width */
+            border: 1px solid black;
+            background-color: burlywood;
+            display: grid;
+            place-items: center; /* centers the image */
+        }
+
+        img {
+            width: 80%;
+            height: auto;
+        }
+
+
+        table {
+            margin: 0 auto;
+        }
+        table img {
+            max-height: 1.5rem;
+            max-height: clamp(1.5rem, 1.0510204081632653rem + 2.0408163265306123vw, 3.5rem);
+            width: auto;
+            padding-left: 1rem;
+        }
+        
+    </style>
+    
+
+</head>
+<body>
+    
+    <h1>Bovo</h1>
+    <br>
+    <p>Init the game and start playing. The goal is to connect 5 of your pieces either horizontally, vertically or diagonally.</p>
+    <br>
+    <Button id="gameInit">Init Game</Button>
+    
+    <br>
+    <table><tr>
+        <td><h3>Current player:  </h3></td><td><img  id="currentPlayer" src="cross.png" alt=""></td>
+    </tr></table>
+    
+    <br>
+
+    <div id="gamediv">
+        
+    </div>
+
+    
+    
+</body>
+</html>
