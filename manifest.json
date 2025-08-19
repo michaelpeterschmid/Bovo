@@ -1,7 +1,8 @@
 {
     "name": "Bovo",
     "short_name": "Bovo",
-    "start_url": "/index.html",
+    "start_url": "./index.html",
+    "scope": "./",
     "display": "standalone",
     "background_color": "#DEB887",
     "theme_color": "#D49541",
