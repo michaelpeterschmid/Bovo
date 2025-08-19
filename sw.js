@@ -2,11 +2,11 @@
 const appShellAssets = "site-static-v1";
 const dynamicCache = "site-dynamic-v1";
 const assets = [
-    "/", //we want to store the results of requests in the cache
-    "/index.html",
-    "/js/script.js",
-    "img/circle.png",
-    "img/cross.png",
+    "./", //we want to store the results of requests in the cache
+    "./index.html",
+    "./js/script.js",
+    "./img/circle.png",
+    "./img/cross.png",
     "https://fonts.googleapis.com/icon?family=Material+Icons",
     "https://fonts.gstatic.com/s/materialicons/v143/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2",
     "offline.html"
@@ -68,7 +68,7 @@ self.addEventListener("fetch", evt => {
             })
         }).catch(() => {
             if(evt.request.url.indexOf(".html") > -1 ){
-                return caches.match("offline.html");
+                return caches.match("./offline.html");
             }
         })
     );
