@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#000000">
-    <link rel="icon" href="./circle.png">
-    <link rel="apple-touch-icon" href="./circle.png">
+    <link rel="icon" href="./img/icons/icon_96x96.png">
+    <link rel="apple-touch-icon" href="./img/icons/icon_96x96.png">
         <!--notice that defer only works for external scipts but no for inline scripts!-->
-    <script defer src="./script.js"></script>
+    <script defer src="./js/script.js"></script>
     <title>Bovo</title>
     <style>
 
@@ -20,7 +20,14 @@
 
         body {
             text-align: center;
+            
+            
+        }
+
+        main {
+            min-height: 100vh;
             padding: 1rem;
+
         }
         h1{
            
@@ -71,7 +78,7 @@
             width: 100%;
             aspect-ratio: 1 / 1;  /* height will match width */
             border: 1px solid black;
-            background-color: burlywood;
+            background-color: #deb887;
             display: grid;
             place-items: center; /* centers the image */
         }
@@ -91,13 +98,31 @@
             width: auto;
             padding-left: 1rem;
         }
+
+        footer {
+            width: 100%;
+            margin-top: 2rem;
+            padding: 10rem 1rem;
+            background-color: black;
+            color: whitesmoke;
+        }
         
     </style>
+
+
+    <!--PWA Related Stuff-->
+    <!--We need to link our manifest.json-->
+    <link rel="manifest" href="./manifest.json">
+    <!--IOS Support  ----  maybe no longer needed....-->
+    <meta name="apple-mobile-web-app-status-bar" content="D49541">
+
+
+
     
 
 </head>
 <body>
-    
+    <main>
     <h1>Bovo</h1>
     <br>
     <p>Init the game and start playing. The goal is to connect 5 of your pieces either horizontally, vertically or diagonally.</p>
@@ -106,14 +131,27 @@
     
     <br>
     <table><tr>
-        <td><h3>Current player:  </h3></td><td><img  id="currentPlayer" src="cross.png" alt=""></td>
+        <td><h3>Current player:  </h3></td><td><img  id="currentPlayer" src="./img/cross.png" alt=""></td>
     </tr></table>
     
     <br>
 
     <div id="gamediv">
+
+        <script>
+            if("serviceWorker" in navigator){
+                navigator.serviceWorker.register("./sw.js")
+                .then((reg) => console.log("service worker registered", reg))
+                .catch((err) => console.log("service worker not registered", err));
+            }
+        </script>
         
     </div>
+    </main>
+    <footer>
+        <p>&copy; Michael Peter Schmid <a href="./pages/about.html"> <br>About</a></p>
+        
+    </footer>
 
     
     
