@@ -1,6 +1,6 @@
 //v3
-const appShellAssets = "site-static-v2";
-const dynamicCache = "site-dynamic-v2";
+const appShellAssets = "site-static-v3";
+const dynamicCache = "site-dynamic-v3";
 const assets = [
     "./", //we want to store the results of requests in the cache
     "./index.html",
