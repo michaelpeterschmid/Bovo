@@ -7,6 +7,7 @@
     <link rel="apple-touch-icon" href="./img/icons/icon_96x96.png">
         <!--notice that defer only works for external scipts but no for inline scripts!-->
     <script defer src="./js/script.js"></script>
+    <script defer src="./js/pwaInstall.js"></script>
     <title>Bovo</title>
     <style>
 
@@ -48,6 +49,11 @@
         button:hover {
             background-color: black;
             color: whitesmoke;
+        }
+
+        #pwaInstall {
+            display:none; 
+            margin-top:1rem;
         }
 
 
@@ -127,6 +133,8 @@
     <p>Init the game and start playing. The goal is to connect 5 of your pieces either horizontally, vertically or diagonally.</p>
     <br>
     <Button id="gameInit">Init Game</Button>
+    <button id="pwaInstall">App installieren</button>
+
     
     <br>
     <table><tr>
