@@ -30,9 +30,37 @@ gameInitButton.addEventListener("click", () => {
     gameInitButton.innerHTML = "New Game";
     cells = document.getElementsByClassName("cell");
     cells = Array.from(cells);
+
+    /* Event Listener for each cell
     cells.forEach(cell => {
-        cell.addEventListener("click", () => play(cell)); /*Need to write like this so that it is not executet right away but only after click*/
-    });
+        cell.addEventListener("click", () => play(cell));
+     });  /*Need to write like this so that it is not executet right away but only after click*/
+   
+
+    /* Event delegation */
+    document.querySelector("#gamediv").addEventListener("click", (event) => {
+        if(event.target.matches(".cell")){
+            play(event.target);
+        }
+    })
+
+    /*
+    💡 Extra tips
+
+            If .cell elements are nested (e.g. a <span> inside the cell gets clicked), you may want to use closest instead of matches:
+
+            document.querySelector("#gamediv").addEventListener("click", (event) => {
+            const cell = event.target.closest(".cell");
+            if (cell) {
+                play(cell);
+            }
+            });
+
+
+            This way, clicks on any child inside .cell still count as a click on the cell itself
+    */
+    
+    
 })
 
 
