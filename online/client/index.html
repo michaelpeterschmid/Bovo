@@ -8,19 +8,7 @@
         <!--notice that defer only works for external scipts but no for inline scripts!-->
 
  
-    <script type="module">
-    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-
-    // decide URL based on hostname
-    const SOCKET_URL = location.hostname.endsWith("github.io")
-        ? "https://bovo.onrender.com"
-        : "http://localhost:3000";
-
-    const socket = io(SOCKET_URL, { transports: ["websocket"] });
-
-    // OPTIONAL: expose to window if your other code expects it
-    window.socket = socket;
-    </script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
     <!-- If you also have your own module file -->
     <script type="module" src="./online.js"></script>
