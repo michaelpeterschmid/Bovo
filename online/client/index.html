@@ -7,14 +7,24 @@
     <link rel="apple-touch-icon" href="/img/icons/icon_96x96.png">
         <!--notice that defer only works for external scipts but no for inline scripts!-->
 
-    <script>
-    // Decide socket base URL at runtime
-    window.SOCKET_URL = location.hostname.endsWith("github.io")
-        ? "https://bovo.onrender.com"   // ← replace after Render deploy
+ 
+    <script type="module">
+    import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+
+    // decide URL based on hostname
+    const SOCKET_URL = location.hostname.endsWith("github.io")
+        ? "https://bovo.onrender.com"
         : "http://localhost:3000";
-    </script>    
-    <script defer src="./socket.io/socket.io.js"></script> <!--must be added befor the variable io can be used in other scripts!-->
-    <script defer type="module" src="./online.js"></script>
+
+    const socket = io(SOCKET_URL, { transports: ["websocket"] });
+
+    // OPTIONAL: expose to window if your other code expects it
+    window.socket = socket;
+    </script>
+
+    <!-- If you also have your own module file -->
+    <script type="module" src="./online.js"></script>
+
     
     <title>Bovo</title>
     <style>
