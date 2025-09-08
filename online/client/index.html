@@ -6,6 +6,13 @@
     <link rel="icon" href="/img/icons/icon_96x96.png">
     <link rel="apple-touch-icon" href="/img/icons/icon_96x96.png">
         <!--notice that defer only works for external scipts but no for inline scripts!-->
+
+    <script>
+    // Decide socket base URL at runtime
+    window.SOCKET_URL = location.hostname.endsWith("github.io")
+        ? "https://bovo.onrender.com"   // ← replace after Render deploy
+        : "http://localhost:3000";
+    </script>    
     <script defer src="./socket.io/socket.io.js"></script> <!--must be added befor the variable io can be used in other scripts!-->
     <script defer type="module" src="./online.js"></script>
     
