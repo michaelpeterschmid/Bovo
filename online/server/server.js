@@ -26,10 +26,32 @@ const io = new SocketIOServer(server, {
 });
 
 
-let globalRoomArray = [];
+let queueArray = [];
 
 io.on("connection", (socket) => {
     console.log(`socket: ${socket.id} conntected to the server`)
+
+    socket.on("join-queue", (ack) => {
+      queueArray.push(socket)
+      if(queueArray.length===1){
+        return ack({ok: true, message: `you joined the queue successfully. Please wait for an opponent...`})
+        
+      }
+      if(queueArray>=2){
+        let queueRoom = () => Math.random().toString(36).slice(2, 10);
+        p1 = queueArray.shift();
+        p2 = queueArray.shift();
+        p1.join(queueRoom);
+        p2.join(queueRoom);
+  
+        io.to(queueRoom).emit("queue-success", queueRoom);
+
+      }
+
+    })
+
+
+
     socket.on("join-room", (room, ack) => {
     const size = io.of("/").adapter.rooms.get(room)?.size || 0;
 
@@ -62,6 +84,10 @@ io.on("connection", (socket) => {
     for (const room of socket.rooms) {
       if (room !== socket.id) socket.to(room).emit("leave");
     }
+
+    // if a waiting player disconnects, remove them from the queue
+    const idx = queueArray.indexOf(socket);
+    if (idx !== -1) queueArray.splice(idx, 1);
   });
 
 

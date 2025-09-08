@@ -32,14 +32,28 @@ function joinRoom(){
             document.getElementById("roomcontainer").innerHTML = room_h3;
             document.getElementById("roomid").remove();
             document.getElementById("joinRoomBtn").remove();
+            document.getElementById("joinQueueBtn").remove();
             drawGame();
         }
     })
+}
 
 
 
+const joinQueueBtn = document.getElementById("joinQueueBtn");
 
+joinQueueBtn.addEventListener("click", joinQueue);
 
+function joinQueue(){
+    socket.emit("join-queue", ({ok, message}) => {
+        alert(message);
+        if(ok){
+            document.getElementById("roomid").remove();
+            document.getElementById("joinRoomBtn").remove();
+            document.getElementById("joinQueueBtn").remove();
+            drawGame();
+        }
+    })
 }
 
 socket.on("connect", () => {
@@ -60,6 +74,13 @@ socket.on("ready-to-start", () => {
 })
 
 
+socket.on("queue-success", queueRoom => {
+    alert("Two players are in this room. You may start playing!");
+    enoughPlayers = true;
+    let room_h3 = `roomid: ${queueRoom}`;
+    document.getElementById("roomcontainer").innerHTML = room_h3;
+
+})
 
 
 
