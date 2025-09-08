@@ -20,15 +20,11 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: [
-      "https://<your-username>.github.io", // GitHub Pages root domain
-      "https://<your-username>.github.io/Bovo", // project page path (safe to include)
-      "http://localhost:3000",             // local dev
-      "http://127.0.0.1:3000"
-    ],
+    origin: "*",          // ✅ allow all origins
     methods: ["GET", "POST"]
   }
 });
+
 
 let globalRoomArray = [];
 
