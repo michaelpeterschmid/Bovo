@@ -2,7 +2,7 @@ const socket = io("https://bovo.onrender.com/");
 const gameSize = 14;
 
 let gamefield = new Map();
-let currentPlayer = [`<img src="/img/cross.png">`, "cross"];
+let currentPlayer = [`<img src="./img/cross.png">`, "cross"];
 let counter = 0;
 let cells;
 let yourTurn = true;
@@ -129,7 +129,7 @@ async function play(cell){
 
     if(counter%2==0){
 
-        document.getElementById("currentPlayer").src = "/img/circle.png";
+        document.getElementById("currentPlayer").src = "./img/circle.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
@@ -150,7 +150,7 @@ async function play(cell){
 
     
     }else{
-        document.getElementById("currentPlayer").src = "/img/cross.png";
+        document.getElementById("currentPlayer").src = "./img/cross.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
@@ -187,7 +187,7 @@ async function replicate(cellId, repliatePlayer){
 
     if(counter%2==0){
 
-        document.getElementById("currentPlayer").src = "/img/circle.png";
+        document.getElementById("currentPlayer").src = "./img/circle.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
@@ -197,11 +197,11 @@ async function replicate(cellId, repliatePlayer){
             gameOver = true
         }
 
-        currentPlayer = [`<img src="/img/circle.png">`, "circle"];
+        currentPlayer = [`<img src="./img/circle.png">`, "circle"];
 
     
     }else{
-        document.getElementById("currentPlayer").src = "/img/cross.png";
+        document.getElementById("currentPlayer").src = "./img/cross.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
@@ -212,7 +212,7 @@ async function replicate(cellId, repliatePlayer){
         if(checkWin(currentPlayer[1], cell)){
             gameOver = true
         }
-        currentPlayer = [`<img src="/img/cross.png">`, "cross"];
+        currentPlayer = [`<img src="./img/cross.png">`, "cross"];
 
     }
     yourTurn = true;
