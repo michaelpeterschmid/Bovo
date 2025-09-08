@@ -8,6 +8,9 @@ let cells;
 let yourTurn = true;
 let room;
 let gameOver = false;
+let enoughPlayers = false
+
+
 
 
 const joinRoomBtn = document.getElementById("joinRoomBtn");
@@ -48,6 +51,10 @@ socket.on("leave", () => {
     gameOver = true;
 })
 
+socket.on("ready-to-start", () => {
+    alert("Two players are in this room. You may start playing!");
+    enoughPlayers = true;
+})
 
 
 
@@ -111,9 +118,16 @@ function drawGame() {
 
 
 async function play(cell){
+
+
+    if(!enoughPlayers){
+        alert("Wait for another user to join!");
+        return;
+    }
+    
     if(gameOver){
-        alert("The game is over, reload the page to play again.")
-        return
+        alert("The game is over, reload the page to play again.");
+        return;
     }
 
     if(!yourTurn){
