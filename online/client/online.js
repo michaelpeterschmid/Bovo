@@ -1,22 +1,66 @@
-
-
+const socket = io("http://localhost:3000");
 const gameSize = 14;
 
 let gamefield = new Map();
-let currentPlayer = [`<img src="./img/cross.png">`, "cross"];
+let currentPlayer = [`<img src="/img/cross.png">`, "cross"];
 let counter = 0;
 let cells;
-
-const gameInitButton = document.getElementById("gameInit");
-
-
-gameInitButton.addEventListener("click", () => {
-    document.getElementById("onlineGameInit").style.display = "None";
+let yourTurn = true;
+let room;
+let gameOver = false;
 
 
-    if(gameInitButton.textContent==="New Game"){
-        location.reload();
+const joinRoomBtn = document.getElementById("joinRoomBtn");
+
+joinRoomBtn.addEventListener("click", joinRoom);
+
+function joinRoom(){
+    room = document.getElementById("roomid").value
+    if(room.trim()===""){
+        alert("You must enter a valid room to join!")
+        return
     }
+
+
+    socket.emit("join-room", room, ({ok, message}) => {
+        alert(message);
+        if(ok){
+            let room_h3 = `roomid: ${room}`;
+            document.getElementById("roomcontainer").innerHTML = room_h3;
+            document.getElementById("roomid").remove();
+            document.getElementById("joinRoomBtn").remove();
+            drawGame();
+        }
+    })
+
+
+
+
+
+}
+
+socket.on("connect", () => {
+    console.log(`Your socket ID: ${socket.id}`)
+})
+
+socket.on("leave", () => {
+    alert("your opponent left the game you win.");
+    gameOver = true;
+})
+
+
+
+
+
+
+socket.on("receive-data", (cellId, repliatePlayer) => {
+    replicate(cellId, repliatePlayer)
+
+})
+
+
+function drawGame() {
+
 
     let gamediv = document.getElementById("gamediv");
     gamediv.style.gridTemplateColumns  = `repeat(${gameSize}, 1fr)`;
@@ -28,22 +72,22 @@ gameInitButton.addEventListener("click", () => {
         }
     }
     
-    gameInitButton.innerHTML = "New Game";
+
     cells = document.getElementsByClassName("cell");
     cells = Array.from(cells);
 
-    /* Event Listener for each cell
+     /* Event Listener for each cell */
     cells.forEach(cell => {
-        cell.addEventListener("click", () => play(cell));
+        cell.addEventListener("click", () => play(cell, true));
      });  /*Need to write like this so that it is not executet right away but only after click*/
    
 
     /* Event delegation */
-    document.querySelector("#gamediv").addEventListener("click", (event) => {
+/*     document.querySelector("#gamediv").addEventListener("click", (event) => {
         if(event.target.matches(".cell")){
-            play(event.target);
+            play(event.target.closest(".cell"));
         }
-    })
+    }) */
 
     /*
     💡 Extra tips
@@ -62,11 +106,20 @@ gameInitButton.addEventListener("click", () => {
     */
     
     
-})
+}
 
 
 
 async function play(cell){
+    if(gameOver){
+        alert("The game is over, reload the page to play again.")
+        return
+    }
+
+    if(!yourTurn){
+        alert("Wait for other user to play!")
+        return;
+    }
     if(cell.innerHTML !== ""){
         alert("cell already played!"); 
         return;
@@ -76,26 +129,79 @@ async function play(cell){
 
     if(counter%2==0){
 
-        document.getElementById("currentPlayer").src = "./img/circle.png";
+        document.getElementById("currentPlayer").src = "/img/circle.png";
+        cell.innerHTML = currentPlayer[0];
+        gamefield.set(cell.id, currentPlayer[1])
+        /* Draw first before  checking win*/
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        // alternative: await new Promise(r => setTimeout(r, 0)); It pauses your async function until the next macrotask, giving the browser a chance to render.
+        
+        counter++;
+        socket.emit("send-data", room, cell.id, currentPlayer, counter)
+        console.log(gamefield.entries());
+
+        if(checkWin(currentPlayer[1], cell)){
+            gameOver = true
+        }
+
+
+
+
+
+    
+    }else{
+        document.getElementById("currentPlayer").src = "/img/cross.png";
+        cell.innerHTML = currentPlayer[0];
+        gamefield.set(cell.id, currentPlayer[1])
+        /* Draw first before  checking win*/
+
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        counter++;
+        socket.emit("send-data", room, cell.id, currentPlayer, counter)
+        console.log(gamefield.entries());
+
+        if(checkWin(currentPlayer[1], cell)){
+            gameOver = true
+        }
+
+
+    }
+    yourTurn = false;
+   
+    
+
+}
+
+
+
+async function replicate(cellId, repliatePlayer){
+    currentPlayer = repliatePlayer;
+    let cell = document.getElementById(cellId);
+
+    if(cell.innerHTML !== ""){
+        alert("cell already played!"); 
+        return;
+    }
+
+
+
+    if(counter%2==0){
+
+        document.getElementById("currentPlayer").src = "/img/circle.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
         await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         // alternative: await new Promise(r => setTimeout(r, 0)); It pauses your async function until the next macrotask, giving the browser a chance to render.
         if(checkWin(currentPlayer[1], cell)){
-            location.reload()
-            return;
+            gameOver = true
         }
 
-
-        counter++
-        currentPlayer = [`<img src="./img/circle.png">`, "circle"];
-
-
+        currentPlayer = [`<img src="/img/circle.png">`, "circle"];
 
     
     }else{
-        document.getElementById("currentPlayer").src = "./img/cross.png";
+        document.getElementById("currentPlayer").src = "/img/cross.png";
         cell.innerHTML = currentPlayer[0];
         gamefield.set(cell.id, currentPlayer[1])
         /* Draw first before  checking win*/
@@ -104,15 +210,13 @@ async function play(cell){
 
 
         if(checkWin(currentPlayer[1], cell)){
-            location.reload()
-            return;
+            gameOver = true
         }
+        currentPlayer = [`<img src="/img/cross.png">`, "cross"];
 
-        counter++
-        currentPlayer = [`<img src="./img/cross.png">`, "cross"];
     }
-
-    console.log(gamefield.entries());
+    yourTurn = true;
+    counter++
 }
 
 function checkWin(player, cell) {

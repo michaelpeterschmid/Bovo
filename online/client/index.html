@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="./img/icons/icon_96x96.png">
-    <link rel="apple-touch-icon" href="./img/icons/icon_96x96.png">
+    <link rel="icon" href="/img/icons/icon_96x96.png">
+    <link rel="apple-touch-icon" href="/img/icons/icon_96x96.png">
         <!--notice that defer only works for external scipts but no for inline scripts!-->
-    <script defer type="module" src="./js/script.js"></script>
-    <script defer type="module" src="./js/online.js"></script>
-    <script defer src="./js/pwaInstall.js"></script>
+    <script defer src="./socket.io/socket.io.js"></script> <!--must be added befor the variable io can be used in other scripts!-->
+    <script defer type="module" src="./online.js"></script>
+    
     <title>Bovo</title>
     <style>
 
@@ -36,7 +36,7 @@
             font-size: clamp(1.5rem, 1.0510204081632653rem + 2.0408163265306123vw, 3.5rem);
         }
 
-        button {
+        button, input {
             display: block;
             margin: 0 auto;
             font-size: large;
@@ -117,7 +117,6 @@
 
     <!--PWA Related Stuff-->
     <!--We need to link our manifest.json-->
-    <link rel="manifest" href="./manifest.json">
     <!--IOS Support  ----  maybe no longer needed....-->
     <meta name="apple-mobile-web-app-status-bar" content="D49541">
 
@@ -132,35 +131,30 @@
     <br>
     <p>Init the game and start playing. The goal is to connect 5 of your pieces either horizontally, vertically or diagonally.</p>
     <br>
-    <Button id="gameInit">Init local Game</Button>
+    <input type="text" id="roomid" placeholder="enter roomid to join">
     <br>
-    <a href="./online/client/index.html"><Button id="onlineGameInit">Init online Game</Button></a>
-    <button id="pwaInstall">App installieren</button>
+    <button id="joinRoomBtn">Join specific room</button>
+    <br>
+    <a href="../../index.html"><button>Back to start page</button></a>
+    <br>
+    <h3><div id="roomcontainer">You haven't joined a room so far</div></h3>
+    <br>
 
     
     <br>
     <table><tr>
-        <td><h3>Current player:  </h3></td><td><img  id="currentPlayer" src="./img/cross.png" alt=""></td>
+        <td><h3>Current player:  </h3></td><td><img  id="currentPlayer" src="/img/cross.png" alt=""></td>
     </tr></table>
     
     <br>
 
     <div id="gamediv">
-
-        <script>
-            if("serviceWorker" in navigator){
-                navigator.serviceWorker.register("./sw.js")
-                .then((reg) => console.log("service worker registered", reg))
-                .catch((err) => console.log("service worker not registered", err));
-            }
-        </script>
-        
     </div>
     </main>
-    <footer>
-        <p>&copy; Michael Peter Schmid <a href="./pages/about.html"> <br>About</a></p>
+<!--     <footer>
+        <p>&copy; Michael Peter Schmid <a href="../../pages/about.html"> <br>About</a></p>
         
-    </footer>
+    </footer> -->
 
     
     
