@@ -41,6 +41,10 @@ io.on("connection", (socket) => {
 
     if (size === 1) {
       socket.join(room);
+
+      //io.to(room).emit(...) → sends to all sockets in that room (everyone).
+      //socket.to(room).emit(...) → sends to everyone in the room except the current
+      io.to(room).emit("ready-to-start");
       return ack({ ok: true, message: `you joined the room: ${room}, this room is now full` });
     }
 
