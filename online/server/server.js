@@ -37,10 +37,10 @@ io.on("connection", (socket) => {
         return ack({ok: true, message: `you joined the queue successfully. Please wait for an opponent...`})
         
       }
-      if(queueArray>=2){
-        let queueRoom = () => Math.random().toString(36).slice(2, 10);
-        p1 = queueArray.shift();
-        p2 = queueArray.shift();
+      if(queueArray.length>=2){
+        let queueRoom = Math.random().toString(36).slice(2, 10);
+        let p1 = queueArray.shift();
+        let p2 = queueArray.shift();
         p1.join(queueRoom);
         p2.join(queueRoom);
   

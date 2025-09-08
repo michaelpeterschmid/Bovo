@@ -76,6 +76,7 @@ socket.on("ready-to-start", () => {
 socket.on("queue-success", queueRoom => {
     alert("Two players are in this room. You may start playing!");
     enoughPlayers = true;
+    room = queueRoom;
     let room_h3 = `roomid: ${queueRoom}`;
     document.getElementById("roomcontainer").innerHTML = room_h3;
 
