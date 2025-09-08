@@ -47,8 +47,11 @@ socket.on("connect", () => {
 })
 
 socket.on("leave", () => {
-    alert("your opponent left the game you win.");
-    gameOver = true;
+    if(!gameOver){
+        alert("your opponent left the game you win.");
+        gameOver = true;
+    }
+
 })
 
 socket.on("ready-to-start", () => {
