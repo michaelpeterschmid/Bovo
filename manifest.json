@@ -3,7 +3,7 @@
     "short_name": "Bovo",
     "start_url": "./index.html",
     "scope": "./",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#DEB887",
     "theme_color": "#D49541",
     "orientation": "portrait-primary",
